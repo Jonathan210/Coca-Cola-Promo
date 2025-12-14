@@ -1,9 +1,9 @@
 /* --- CSS VARIABLES --- */
         :root {
             --bg-dark: #121212;
-            --coke-red: #E60000;
-            --text-light: #F0F0F0;
-            --text-dim: #A0A0A0;
+            --coke-red: #e60000;
+            --text-light: #f0f0f0;
+            --text-dim: #a0a0a0;
             --transition-speed: 0.8s;
         }
 
@@ -33,9 +33,8 @@
             cursor: pointer !important;
         }
 
-
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: "Montserrat", sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-light);
             overflow-x: hidden;
@@ -157,7 +156,7 @@
         }
 
         .welcome-content h1 {
-            font-family: 'Oswald', sans-serif;
+            font-family: "Oswald", sans-serif;
             font-size: 5em;
             font-weight: 900;
             color: var(--coke-red);
@@ -238,7 +237,6 @@
             filter: brightness(0.4) grayscale(0.2);
         }
 
-
         .carousel-inner {
             display: flex;
             height: 100%;
@@ -283,7 +281,9 @@
             flex-direction: column;
             justify-content: center;
             padding: 0 50px;
-            background-image: linear-gradient(to bottom, var(--coke-red), rgba(0, 0, 0, 0.4));
+            background-image: linear-gradient(to bottom,
+                    var(--coke-red),
+                    rgba(0, 0, 0, 0.4));
             transition: background-color var(--transition-speed) ease-in-out;
             z-index: 5;
             position: absolute;
@@ -295,7 +295,7 @@
             font-weight: 900;
             line-height: 1;
             margin-bottom: 20px;
-            font-family: 'Oswald', sans-serif;
+            font-family: "Oswald", sans-serif;
             color: white;
         }
 
@@ -414,14 +414,14 @@
             /* Ensure high contrast */
             line-height: 1.2;
             margin-top: 5px;
-            font-family: 'Oswald', sans-serif;
+            font-family: "Oswald", sans-serif;
             /* Use Oswald for prominence */
         }
 
         .grid-product-tag {
             font-size: 0.7em;
             /* Slightly larger tag */
-            color: #FF6666;
+            color: #ff6666;
             /* Lighter red for a subtle highlight */
             font-weight: 600;
             margin-bottom: 3px;
@@ -465,7 +465,6 @@
             padding: 0 40px;
             /* Padding for the arrows from the edge */
             z-index: 10;
-
         }
 
         .arrow-btn {
@@ -493,9 +492,10 @@
             box-shadow: 0 0 15px var(--coke-red);
         }
 
-        /* --- SECTION 3: ABOUT - IMPROVED DESIGN START --- */
+        /* --- SECTION 3: ABOUT - IMPROVED DESIGN START (Responsive Updates Integrated) --- */
         #about-section {
             display: flex;
+            justify-content: center;
             align-items: center;
             padding: 100px 50px;
             position: relative;
@@ -515,7 +515,7 @@
 
         @keyframes float {
             0% {
-                transform: translateY(-55%) rotate(0deg) scale(1.0);
+                transform: translateY(-55%) rotate(0deg) scale(1);
             }
 
             100% {
@@ -525,8 +525,9 @@
 
         .about-container {
             max-width: 1400px;
+            width: 100%;
             margin: 0 auto;
-            /* IMPROVEMENT: Adjust grid to slightly favor text content */
+            /* DESKTOP LAYOUT: 3 parts text, 2 parts stats */
             display: grid;
             grid-template-columns: 3fr 2fr;
             gap: 80px;
@@ -535,10 +536,9 @@
         }
 
         .about-text h2 {
-            font-family: 'Oswald', sans-serif;
+            font-family: "Oswald", sans-serif;
             font-size: 4em;
             color: var(--coke-red);
-            /* IMPROVEMENT: Thicker, more prominent underline */
             border-bottom: 5px solid rgba(230, 0, 0, 0.5);
             padding-bottom: 15px;
             margin-bottom: 30px;
@@ -547,7 +547,7 @@
         }
 
         .about-text h3 {
-            font-family: 'Montserrat', sans-serif;
+            font-family: "Montserrat", sans-serif;
             font-size: 1.3em;
             font-weight: 700;
             color: var(--text-light);
@@ -555,23 +555,32 @@
             margin-bottom: 10px;
         }
 
+        .about-text p {
+            line-height: 1.6;
+        }
+
+        /* Ensure hover effects are transitionable for smooth look */
+        .about-text p,
+        .about-text h2,
+        .about-text h3 {
+            transition: transform 0.3s, text-shadow 0.3s;
+        }
+
         .about-text:hover p,
         .about-text:hover h2,
         .about-text:hover h3 {
-            transform: scale(1.05);
-            text-shadow: #000000 0px 0px 10px;
+            transform: scale(1);
+            text-shadow: #000000 0px 0px 5px;
         }
 
-
         .about-stats {
-            /* IMPROVEMENT: Change to 2 columns on desktop for better fit */
+            /* DEFAULT DESKTOP: 2 columns */
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 30px;
             margin-top: 0;
-            /* Align with text */
             padding: 0;
-            /* IMPROVEMENT: Add a subtle divider */
+            /* Subtle divider */
             border-left: 1px solid rgba(230, 0, 0, 0.4);
             padding-left: 30px;
         }
@@ -593,7 +602,7 @@
 
         /* Red accent bar on the left */
         .stat-box::before {
-            content: '';
+            content: "";
             position: absolute;
             top: 0;
             left: 0;
@@ -623,7 +632,7 @@
             font-size: 3.2em;
             font-weight: 700;
             color: var(--coke-red);
-            font-family: 'Oswald', sans-serif;
+            font-family: "Oswald", sans-serif;
             line-height: 1.1;
             display: block;
             margin-bottom: 5px;
@@ -642,7 +651,6 @@
 
         /* --- END IMPROVED DESIGN --- */
 
-
         /* --- SECTION 4: CONTACT (UPDATED: Social Accounts Grid) --- */
         #contact-section {
             display: flex;
@@ -659,7 +667,7 @@
         }
 
         .contact-container h2 {
-            font-family: 'Oswald', sans-serif;
+            font-family: "Oswald", sans-serif;
             font-size: 4em;
             color: whitesmoke;
             border-bottom: 5px solid rgba(230, 0, 0, 0.5);
@@ -702,7 +710,7 @@
         }
 
         .social-block h3 {
-            font-family: 'Oswald', sans-serif;
+            font-family: "Oswald", sans-serif;
             font-size: 1.5em;
             color: whitesmoke;
             margin-bottom: 10px;
@@ -731,7 +739,6 @@
         }
 
         /* --- END CONTACT STYLES --- */
-
 
         /* --- MODAL STYLES --- */
         .modal-overlay {
@@ -842,41 +849,22 @@
             border-color: var(--coke-red);
         }
 
-
         /* --- RESPONSIVENESS START --- */
-
         @media (max-width: 1024px) {
-
-            /* --- General Reset --- */
-            html {
-                scroll-snap-type: y proximity;
-                /* softer snap on mobile */
-            }
-
-            #custom-cursor {
-                display: none;
-                /* Hide custom cursor on touch devices */
-            }
-
-            /* --- Product Section: Vertical Stack Layout --- */
-
-            /* 1. The Slide (Image Container) */
+            html { scroll-snap-type: y proximity; }
+            #custom-cursor { display: none; }
+            
             .slide {
                 display: flex;
-                /* Switch from Grid to Flex */
                 flex-direction: column;
                 justify-content: flex-start;
-                /* Align image to top */
                 align-items: center;
                 padding: 100px 0 0 0;
-                /* Add top space for Navbar */
                 grid-template-columns: 1fr;
-                /* Reset grid cols */
             }
 
             .product-visual {
                 height: 45vh;
-                /* Restrict image area to top 45% of screen */
                 width: 100%;
                 display: flex;
                 justify-content: center;
@@ -886,31 +874,19 @@
             .coke-image {
                 max-height: 100%;
                 max-width: 60%;
-                /* Prevent image from being too wide */
                 width: auto;
                 position: relative;
                 filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
                 transform: none !important;
-                /* Reset any complex desktop transforms */
             }
 
-            /* 2. The Content (Text Overlay) */
             .hero-content {
                 position: absolute;
-                top: auto;
                 bottom: 0;
-                left: 0;
-                right: 0;
                 width: 100%;
                 height: 55vh;
-                /* Occupy bottom 55% of screen */
-                padding: 40px 20px 20px 20px;
-
-                /* Gradient: Color at bottom -> Transparent at top */
+                padding: 30px 15px;
                 background-image: linear-gradient(to top, var(--coke-red), #121212 90%, transparent);
-                backdrop-filter: none;
-                /* Remove blur for performance */
-
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -918,126 +894,103 @@
                 z-index: 10;
             }
 
-            /* 3. Text Alignment */
             #slideshow-text-content {
                 align-items: center;
-                /* Center flex items */
                 text-align: center;
                 width: 100%;
                 padding: 0;
                 opacity: 1 !important;
-                /* Ensure visibility */
                 visibility: visible !important;
             }
 
-            .headline {
-                font-size: 3em;
-                margin-bottom: 15px;
-            }
-
-            #description {
-                font-size: 1em;
-                max-width: 500px;
-                margin: 0 auto 20px auto;
-            }
-
-            /* 4. Controls & Buttons */
+            .headline { font-size: 2.8em; margin-bottom: 15px; }
+            #description { font-size: 1em; max-width: 500px; margin: 0 auto 20px; }
+            
             #toggle-view-btn {
                 position: relative;
-                transform: none;
-                left: auto;
-                bottom: auto;
                 margin-top: 10px;
                 width: auto;
             }
 
-            .nav-arrows {
-                top: 40%;
-                /* Move arrows up to align with image */
-                padding: 0 10px;
-            }
-
-            /* 5. Grid View Adjustment */
+            .nav-arrows { top: 40%; padding: 0 10px; }
+            
             .product-grid-view {
-                padding: 100px 20px 80px 20px;
+                padding: 100px 20px 80px;
                 grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             }
 
-            /* Reset other section containers */
-            .about-container,
-            .contact-container {
+            #about-section { padding: 60px 20px; overflow-y: auto; }
+            
+            .about-container {
                 grid-template-columns: 1fr;
-                padding: 80px 20px;
+                gap: 30px;
+                padding: 0;
             }
 
-            .about-stats {
-                grid-template-columns: repeat(2, 1fr);
-                border-left: none;
-                padding-left: 0;
+            .about-text {
+                text-align: center;
+                margin-top: 230vw;
             }
+
+            .about-text h2 { font-size: 0.9em; margin-bottom: 20px; }
+            .about-text h3 { font-size: 0.9em; margin-top: 15px; }
+            .about-text p { font-size: 0.85em; }
+            
+            .about-stats {
+                grid-template: repeat(1, 1fr);
+                gap: 10px;
+                margin-top: 15px;
+            }
+
+            .social-accounts-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
-        /* 2. SMALL MOBILE (Max 600px) */
         @media (max-width: 600px) {
-
-            /* Navbar Compact */
-            .navbar {
-                padding: 15px;
-                justify-content: center;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            /* Hide links, keep logo centered */
-
-            /* Welcome Text */
-            .welcome-content h1 {
-                font-size: 3em;
-            }
-
-            /* Product Tightening */
-            .slide {
-                padding-top: 80px;
-            }
-
-            .product-visual {
-                height: 35vh;
-                /* Smaller image area */
-            }
-
+            .navbar { padding: 15px; justify-content: center; }
+            .nav-links { display: none; }
+            
+            .welcome-content h1 { font-size: 2.5em; }
+            
+            .slide { padding-top: 80px; }
+            
+            .product-visual { height: 35vh; }
+            
             .hero-content {
                 height: 60vh;
-                /* More room for text */
+                padding: 20px 10px;
                 background-image: linear-gradient(to top, var(--coke-red), #121212 85%, transparent);
             }
 
-            .headline {
-                font-size: 2.5em;
-            }
-
-            /* Grid Cards */
-            .grid-product-card {
-                height: 200px;
-            }
-
-            .grid-product-card img {
-                max-height: 90px;
-            }
-
-            /* Social Grid Stack */
-            .social-accounts-grid {
+            .headline { font-size: 2.2em; }
+            
+            .grid-product-card { height: 180px; }
+            .grid-product-card img { max-height: 80px; }
+            
+            #about-section { padding: 40px 15px; }
+            
+            .about-container { gap: 20px; }
+            
+            .about-text h2 { font-size: 2.2em; }
+            .about-text h3 { font-size: 1em; margin-top: 15px; }
+            
+            .about-stats {
                 grid-template-columns: 1fr;
+                gap: 15px;
+                margin-top: 15px;
             }
 
-            /* Modal Adjustments */
+            .stat-box { padding: 15px; }
+            .stat-number { font-size: 2em; }
+            .stat-label { font-size: 0.8em; }
+            
+            #floating-coke-logo { width: 150px; }
+            
+            .social-accounts-grid { grid-template-columns: 1fr; }
+            
             .modal-content {
                 width: 95%;
-                padding: 20px;
+                padding: 15px;
                 max-height: 85vh;
                 overflow-y: auto;
             }
         }
-
-        /* --- RESPONSIVENESS END --- */
