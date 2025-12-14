@@ -921,6 +921,10 @@
                 margin-top: 15px;
             }
 
+            .contact-section {
+                overflow-y: auto;
+            }
+
             .social-accounts-grid { 
                 grid-template-columns: repeat(2, 1fr);
                 overflow-y: auto;
@@ -978,4 +982,5 @@
                 overflow-y: auto;
             }
         }
+
 
