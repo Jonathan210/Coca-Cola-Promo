@@ -502,27 +502,6 @@
             overflow: hidden;
         }
 
-        #floating-coke-logo {
-            position: absolute;
-            top: 50%;
-            right: 5%;
-            width: 300px;
-            opacity: 0.08;
-            transform: translateY(-50%) rotate(0deg);
-            z-index: 1;
-            animation: float 10s ease-in-out infinite alternate;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(-55%) rotate(0deg) scale(1);
-            }
-
-            100% {
-                transform: translateY(-45%) rotate(2deg) scale(1.05);
-            }
-        }
-
         .about-container {
             max-width: 1400px;
             width: 100%;
@@ -942,8 +921,13 @@
                 margin-top: 15px;
             }
 
-            .social-accounts-grid { grid-template-columns: repeat(2, 1fr); }
-        }
+            .social-accounts-grid { 
+                grid-template-columns: repeat(2, 1fr);
+                overflow-y: auto;
+                max-height: 80vh;
+                padding: 10px;
+                gap: 20px;
+            }
 
         @media (max-width: 600px) {
             .navbar { padding: 15px; justify-content: center; }
@@ -994,3 +978,4 @@
                 overflow-y: auto;
             }
         }
+
