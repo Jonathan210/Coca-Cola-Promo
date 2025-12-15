@@ -697,7 +697,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Load Sounds (Paths assumed from original upload)
     const p1 = soundMgr.load('bg', 'assets/switch-150130.mp3');
     const p2 = soundMgr.load('trans', 'assets/transition.mp3');
-    const p3 = soundMgr.load('open', 'assets/coke-open-sound.mp3');
+    const p3 = soundMgr.load('open', 'assets/opening-can.mp3');
     const p4 = soundMgr.load('close', 'assets/switch-150130.mp3');
     const p5 = soundMgr.load('click', 'assets/switch-150130.mp3');
 
@@ -793,3 +793,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
 });
+
