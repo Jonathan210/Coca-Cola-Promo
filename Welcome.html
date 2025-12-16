@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coca-Cola | Welcome</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/logo-4.png" type="image/x-icon" />
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-dark: #121212;
+            --coke-red: #E60000;
+            --text-light: #F0F0F0;
+            --text-dim: #A0A0A0;
+            --transition-speed: 0.3s;
+        }
+
+        /* Global reset and box-sizing */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* Disable default cursor, managed by #custom-cursor */
+            cursor: none;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 1s;
+            /* Ensure text content is above the video */
+            position: relative;
+            z-index: 1;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+        /* ------------------------------------------------------------------- */
+        /* --- Video Background Styling (NEW) --- */
+        /* ------------------------------------------------------------------- */
+        #video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 0;
+            /* Ensures video is behind all content */
+            object-fit: cover;
+            /* Ensures video covers the entire container */
+            opacity: 0.4;
+            /* Slightly dim the video for better text contrast */
+        }
+
+        /* --- Welcome Content --- */
+        .welcome-container {
+            text-align: center;
+            padding: 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .welcome-container h1 {
+            color: transparent;
+            font-family: 'monocraft';
+            font-size: 4em;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 10px;
+            color: var(--coke-red);
+            text-transform: uppercase;
+        }
+
+        .welcome-container p {
+            font-size: 1.2em;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            margin-bottom: 40px;
+        }
+
+        .enter-btn {
+            display: inline-block;
+            background-color: #a000009f;
+            color: #ffffffaf;
+            border-radius: 5px;
+            text-decoration: none;
+            padding: 15px 40px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            transition: background-color 0.3s, transform 0.15s;
+            border: none;
+            cursor: none;
+            font-size: 1em;
+            text-transform: uppercase;
+        }
+
+        .enter-btn:hover {
+            color: azure;
+            background-color: #6300009f;
+            box-shadow: 0 0px 30px rgba(255, 255, 255, 0.5);
+
+        }
+
+        /* --- Custom Cursor Animation --- */
+        #custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 15px;
+            height: 15px;
+            border: 2px solid white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            transition:
+                transform 0.15s ease-out,
+                border-color 0.4s ease-out,
+                width 0.15s ease-out,
+                height 0.15s ease-out;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: exclusion;
+            display: none;
+        }
+
+        #custom-cursor.grow {
+            transform: translate(-50%, -50%) scale(1.5);
+            width: 20px;
+            height: 20px;
+            border-color: var(--text-light);
+        }
+
+        @media (max-width: 850px) {
+            body {
+                cursor: default !important;
+            }
+
+            .welcome-container {
+                background-color: rgba(18, 18, 18, 0.9);
+            }
+
+            .welcome-container h1 {
+                font-size: 3em;
+            }
+
+            .welcome-container p {
+                font-size: 1em;
+            }
+
+            #custom-cursor {
+                display: none !important;
+            }
+
+            .enter-btn {
+                cursor: pointer;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <video autoplay loop playsinline id="video-background">
+        <source src="assets/Coca Cola Commercial ad _Product Shoot _.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="welcome-container">
+        <h1>Taste the Feeling</h1>
+        <p>Explore the different flavors of Coca-Cola!</p>
+        <a href="PromotionalSite.html" class="enter-btn" id="enter-site-btn">ENTER THE SITE</a>
+    </div>
+
+    <div id="custom-cursor"></div>
+
+    <script>
+        // --- SoundManager Class using Web Audio API ---
+        class SoundManager {
+            constructor() {
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    this.buffers = {};
+                    this.masterGainNode = this.audioContext.createGain();
+                    this.masterGainNode.connect(this.audioContext.destination);
+                    this.musicStarted = false;
+                } catch (e) {
+                    console.warn('Web Audio API is not supported in this browser.');
+                    this.audioContext = null;
+                }
+            }
+
+            async loadSound(name, url) {
+                if (!this.audioContext) return;
+                try {
+                    const response = await fetch(url);
+                    const arrayBuffer = await response.arrayBuffer();
+                    this.buffers[name] = await this.audioContext.decodeAudioData(arrayBuffer);
+                } catch (error) {
+                    console.error(`Error loading or decoding sound ${name}:`, error);
+                }
+            }
+
+            playBackgroundMusic(name) {
+                if (!this.audioContext || !this.buffers[name] || this.musicStarted) return;
+
+                const musicGainNode = this.audioContext.createGain();
+                musicGainNode.gain.value = 0.2; // Keep volume low for background track
+                musicGainNode.connect(this.masterGainNode);
+
+                const source = this.audioContext.createBufferSource();
+                source.buffer = this.buffers[name];
+                source.loop = true;
+
+                source.connect(musicGainNode);
+                source.start(0);
+
+                this.musicStarted = true;
+                console.log("Background music started.");
+            }
+        }
+
+        const soundManager = new SoundManager();
+
+        /**
+         * Checks screen width and updates custom cursor visibility.
+         */
+        const checkCursorVisibility = () => {
+            const customCursor = document.getElementById('custom-cursor');
+            if (window.innerWidth <= 850) {
+                customCursor.style.display = 'none';
+                document.body.style.cursor = 'default';
+            } else {
+                customCursor.style.display = 'block';
+                document.body.style.cursor = 'none';
+            }
+        };
+
+        /**
+         * Initializes the custom animated cursor.
+         */
+        const initCustomCursor = () => {
+            const customCursor = document.getElementById('custom-cursor');
+            checkCursorVisibility();
+
+            document.addEventListener('mousemove', (e) => {
+                if (window.innerWidth <= 850) return;
+                customCursor.style.left = `${e.clientX}px`;
+                customCursor.style.top = `${e.clientY}px`;
+            });
+
+            const interactiveElements = document.querySelectorAll('.enter-btn');
+
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    if (window.innerWidth > 850) customCursor.classList.add('grow');
+                });
+                el.addEventListener('mouseleave', () => customCursor.classList.remove('grow'));
+            });
+
+            window.addEventListener('resize', checkCursorVisibility);
+        };
+
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Load the background music asset
+            const soundMusic = soundManager.loadSound('background_track', 'assets/background.mp3');
+
+            await Promise.all([soundMusic]);
+
+            // Show the body content
+            document.body.classList.add('loaded');
+
+            // Function to handle initial music start (required by most browsers)
+            const startMusicOnInteraction = () => {
+                if (soundManager.audioContext) {
+                    if (soundManager.audioContext.state === 'suspended') {
+                        soundManager.audioContext.resume().then(() => {
+                            soundManager.playBackgroundMusic('background_track');
+                        });
+                    } else if (!soundManager.musicStarted) {
+                        soundManager.playBackgroundMusic('background_track');
+                    }
+                }
+                // Remove listeners after first interaction
+                document.removeEventListener('click', startMusicOnInteraction);
+                document.removeEventListener('keydown', startMusicOnInteraction);
+                document.getElementById('enter-site-btn').removeEventListener('click', startMusicOnInteraction);
+            };
+
+            // Attach listener to start music on the very first user interaction
+            document.addEventListener('click', startMusicOnInteraction, {
+                once: true
+            });
+            document.addEventListener('keydown', startMusicOnInteraction, {
+                once: true
+            });
+            // Also attach to the main button click, as it's the most likely first interaction
+            document.getElementById('enter-site-btn').addEventListener('click', startMusicOnInteraction, {
+                once: true
+            });
+
+
+            // Initialize Custom Cursor
+            initCustomCursor();
+        });
+    </script>
+</body>
+
+</html>
