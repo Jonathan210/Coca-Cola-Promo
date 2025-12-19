@@ -18,18 +18,51 @@
             --transition-speed: 0.3s;
         }
 
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: var(--coke-red);
+            transition: width 0.3s ease;
+        }
+
         /* Global reset and box-sizing */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            /* Disable default cursor, managed by #custom-cursor */
             cursor: none;
         }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg-dark);
             color: var(--text-light);
             height: 100vh;
             width: 100vw;
@@ -38,9 +71,10 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            overflow-x: hidden;
+            touch-action: manipulation;
             opacity: 0;
             transition: opacity 1s;
-            /* Ensure text content is above the video */
             position: relative;
             z-index: 1;
         }
@@ -49,42 +83,54 @@
             opacity: 1;
         }
 
-        /* ------------------------------------------------------------------- */
-        /* --- Video Background Styling (NEW) --- */
-        /* ------------------------------------------------------------------- */
+        /* Video Background */
         #video-background {
             position: fixed;
-            top: 0;
-            left: 0;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: 0;
-            /* Ensures video is behind all content */
+            top: 0; left: 0;
+            min-width: 100%; min-height: 100%;
             object-fit: cover;
-            /* Ensures video covers the entire container */
-            opacity: 0.4;
-            /* Slightly dim the video for better text contrast */
+            z-index: 0;
+            filter: brightness(0.7);
         }
 
-        /* --- Welcome Content --- */
+        /* Welcome Content */
         .welcome-container {
             text-align: center;
             padding: 40px;
             position: relative;
             z-index: 10;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .welcome-container h1 {
-            color: transparent;
-            font-family: 'monocraft';
+            font-family: 'Monocraft', sans-serif;
             font-size: 4em;
             font-weight: 900;
             line-height: 1;
             margin-bottom: 10px;
             color: var(--coke-red);
             text-transform: uppercase;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px var(--coke-red);
+            }
+            to {
+                text-shadow: 0 0 20px var(--coke-red), 0 0 30px var(--coke-red);
+            }
         }
 
         .welcome-container p {
@@ -93,32 +139,58 @@
             letter-spacing: 2px;
             color: var(--text-dim);
             margin-bottom: 40px;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .enter-btn {
             display: inline-block;
-            background-color: #a000009f;
+            background-color: #d80000dc;
             color: #ffffffaf;
-            border-radius: 5px;
+            border-radius: 50px;
             text-decoration: none;
             padding: 15px 40px;
             font-weight: 700;
             letter-spacing: 2px;
-            transition: background-color 0.3s, transform 0.15s;
+            transition: all 0.3s ease;
             border: none;
             cursor: none;
             font-size: 1em;
             text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .enter-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .enter-btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .enter-btn:hover {
-            color: azure;
-            background-color: #6300009f;
-            box-shadow: 0 0px 30px rgba(255, 255, 255, 0.5);
-
+            background-color: var(--coke-red);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(230, 0, 0, 0.6);
         }
 
-        /* --- Custom Cursor Animation --- */
+        /* Custom Cursor */
         #custom-cursor {
             position: fixed;
             top: 0;
@@ -129,30 +201,31 @@
             border-radius: 50%;
             pointer-events: none;
             z-index: 1000;
-            transition:
-                transform 0.15s ease-out,
-                border-color 0.4s ease-out,
-                width 0.15s ease-out,
-                height 0.15s ease-out;
+            transition: transform 0.15s ease-out;
             transform: translate(-50%, -50%);
             mix-blend-mode: exclusion;
-            display: none;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
         }
 
         #custom-cursor.grow {
             transform: translate(-50%, -50%) scale(1.5);
-            width: 20px;
-            height: 20px;
             border-color: var(--text-light);
         }
 
+        /* Responsive Design */
         @media (max-width: 850px) {
             body {
                 cursor: default !important;
-            }
-
-            .welcome-container {
-                background-color: rgba(18, 18, 18, 0.9);
             }
 
             .welcome-container h1 {
@@ -170,26 +243,106 @@
             .enter-btn {
                 cursor: pointer;
             }
+
         }
     </style>
 </head>
 
 <body>
-    <video autoplay loop playsinline id="video-background">
-        <source src="assets/Coca Cola Commercial ad _Product Shoot _.mp4" type="video/mp4">
+    <div class="loading-screen">
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <video autoplay loop muted playsinline id="video-background" preload="auto">
+        <source src="assets/About.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
     <div class="welcome-container">
         <h1>Taste the Feeling</h1>
         <p>Explore the different flavors of Coca-Cola!</p>
-        <a href="PromotionalSite.html" class="enter-btn" id="enter-site-btn">ENTER THE SITE</a>
+        <a href="index.html" class="enter-btn" id="enter-site-btn">ENTER THE SITE</a>
     </div>
 
     <div id="custom-cursor"></div>
 
     <script>
-        // --- SoundManager Class using Web Audio API ---
+        // Loading Screen
+        window.addEventListener('load', () => {
+            const loadingScreen = document.querySelector('.loading-screen');
+            const loadingProgress = document.querySelector('.loading-progress');
+            let progress = 0;
+
+            const interval = setInterval(() => {
+                progress += Math.random() * 30;
+                if (progress > 100) progress = 100;
+                loadingProgress.style.width = `${progress}%`;
+
+                if (progress === 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                        document.body.classList.add('loaded');
+                    }, 500);
+                }
+            }, 200);
+        });
+
+        // Custom Cursor with Trail Effect
+        const initCustomCursor = () => {
+            const cursor = document.getElementById('custom-cursor');
+            const trails = [];
+            const trailCount = 5;
+
+            // Create trail elements
+            for (let i = 0; i < trailCount; i++) {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                document.body.appendChild(trail);
+                trails.push(trail);
+            }
+
+            let mouseX = 0, mouseY = 0;
+            let cursorX = 0, cursorY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                if (window.innerWidth <= 850) return;
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            function animate() {
+                cursorX += (mouseX - cursorX) * 0.1;
+                cursorY += (mouseY - cursorY) * 0.1;
+
+                cursor.style.left = `${cursorX}px`;
+                cursor.style.top = `${cursorY}px`;
+
+                trails.forEach((trail, index) => {
+                    const delay = (index + 1) * 0.05;
+                    trail.style.left = `${cursorX - (mouseX - cursorX) * delay}px`;
+                    trail.style.top = `${cursorY - (mouseY - cursorY) * delay}px`;
+                    trail.style.opacity = 1 - (index / trailCount);
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            const interactiveElements = document.querySelectorAll('.enter-btn, .social-links a');
+
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    if (window.innerWidth > 850) cursor.classList.add('grow');
+                });
+                el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
+            });
+        };
+
+        // SoundManager Class
         class SoundManager {
             constructor() {
                 try {
@@ -219,7 +372,7 @@
                 if (!this.audioContext || !this.buffers[name] || this.musicStarted) return;
 
                 const musicGainNode = this.audioContext.createGain();
-                musicGainNode.gain.value = 0.2; // Keep volume low for background track
+                musicGainNode.gain.value = 0.2;
                 musicGainNode.connect(this.masterGainNode);
 
                 const source = this.audioContext.createBufferSource();
@@ -236,57 +389,14 @@
 
         const soundManager = new SoundManager();
 
-        /**
-         * Checks screen width and updates custom cursor visibility.
-         */
-        const checkCursorVisibility = () => {
-            const customCursor = document.getElementById('custom-cursor');
-            if (window.innerWidth <= 850) {
-                customCursor.style.display = 'none';
-                document.body.style.cursor = 'default';
-            } else {
-                customCursor.style.display = 'block';
-                document.body.style.cursor = 'none';
-            }
-        };
-
-        /**
-         * Initializes the custom animated cursor.
-         */
-        const initCustomCursor = () => {
-            const customCursor = document.getElementById('custom-cursor');
-            checkCursorVisibility();
-
-            document.addEventListener('mousemove', (e) => {
-                if (window.innerWidth <= 850) return;
-                customCursor.style.left = `${e.clientX}px`;
-                customCursor.style.top = `${e.clientY}px`;
-            });
-
-            const interactiveElements = document.querySelectorAll('.enter-btn');
-
-            interactiveElements.forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    if (window.innerWidth > 850) customCursor.classList.add('grow');
-                });
-                el.addEventListener('mouseleave', () => customCursor.classList.remove('grow'));
-            });
-
-            window.addEventListener('resize', checkCursorVisibility);
-        };
-
-
-        // --- INITIALIZATION ---
+        // Initialize
         document.addEventListener('DOMContentLoaded', async () => {
             // Load the background music asset
             const soundMusic = soundManager.loadSound('background_track', 'assets/background.mp3');
 
             await Promise.all([soundMusic]);
 
-            // Show the body content
-            document.body.classList.add('loaded');
-
-            // Function to handle initial music start (required by most browsers)
+            // Function to handle initial music start
             const startMusicOnInteraction = () => {
                 if (soundManager.audioContext) {
                     if (soundManager.audioContext.state === 'suspended') {
@@ -297,29 +407,21 @@
                         soundManager.playBackgroundMusic('background_track');
                     }
                 }
-                // Remove listeners after first interaction
-                document.removeEventListener('click', startMusicOnInteraction);
-                document.removeEventListener('keydown', startMusicOnInteraction);
-                document.getElementById('enter-site-btn').removeEventListener('click', startMusicOnInteraction);
             };
 
-            // Attach listener to start music on the very first user interaction
-            document.addEventListener('click', startMusicOnInteraction, {
-                once: true
-            });
-            document.addEventListener('keydown', startMusicOnInteraction, {
-                once: true
-            });
-            // Also attach to the main button click, as it's the most likely first interaction
-            document.getElementById('enter-site-btn').addEventListener('click', startMusicOnInteraction, {
-                once: true
-            });
-
+            // Attach listeners to start music on user interaction
+            document.addEventListener('click', startMusicOnInteraction, { once: true });
+            document.addEventListener('keydown', startMusicOnInteraction, { once: true });
+            document.getElementById('enter-site-btn').addEventListener('click', startMusicOnInteraction, { once: true });
 
             // Initialize Custom Cursor
             initCustomCursor();
         });
     </script>
+
+    <!-- Font Awesome for social media icons -->
+    <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
+
