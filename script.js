@@ -697,7 +697,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Load Sounds (Paths assumed from original upload)
     const p1 = soundMgr.load('bg', 'assets/switch-150130.mp3');
     const p2 = soundMgr.load('trans', 'assets/transition.mp3');
-    const p3 = soundMgr.load('open', 'assets/opening-can.mp3');
+    const p3 = soundMgr.load('open', 'assets/coke-open-sound.mp3');
     const p4 = soundMgr.load('close', 'assets/switch-150130.mp3');
     const p5 = soundMgr.load('click', 'assets/switch-150130.mp3');
 
@@ -794,3 +794,163 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 });
 
+// Custom Cursor with Trail Effect
+const initCustomCursor = () => {
+    const cursor = document.getElementById('custom-cursor');
+    const trails = [];
+    const trailCount = 5;
+
+    // Create trail elements
+    for (let i = 0; i < trailCount; i++) {
+        const trail = document.createElement('div');
+        trail.className = 'cursor-trail';
+        document.body.appendChild(trail);
+        trails.push(trail);
+    }
+
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        if (window.innerWidth <= 850) return;
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    function animate() {
+        cursorX += (mouseX - cursorX) * 0.1;
+        cursorY += (mouseY - cursorY) * 0.1;
+
+        cursor.style.left = `${cursorX}px`;
+        cursor.style.top = `${cursorY}px`;
+
+        trails.forEach((trail, index) => {
+            const delay = (index + 1) * 0.05;
+            trail.style.left = `${cursorX - (mouseX - cursorX) * delay}px`;
+            trail.style.top = `${cursorY - (mouseY - cursorY) * delay}px`;
+            trail.style.opacity = 1 - (index / trailCount);
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    const interactiveElements = document.querySelectorAll('.enter-btn, .social-links a');
+
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            if (window.innerWidth > 850) cursor.classList.add('grow');
+        });
+        el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
+    });
+};
+
+// DOM Element references
+const liquidFill = document.getElementById('liquid-fill');
+const wave = document.getElementById('wave');
+const fizz = document.getElementById('fizz');
+const percentDisplay = document.getElementById('percent');
+const loaderScreen = document.getElementById('loader-screen');
+
+let progress = 0;
+
+/**
+ * Creates a single bubble element with randomized properties
+ */
+function createBubble() {
+    if (progress >= 100) return;
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+
+    const size = Math.random() * 4 + 2 + 'px';
+    const speed = Math.random() * 1.5 + 0.8 + 's';
+    const distance = -(Math.random() * 150 + 50) + 'px';
+
+    bubble.style.width = size;
+    bubble.style.height = size;
+    bubble.style.left = Math.random() * 100 + '%';
+
+    // Pass random values to CSS variables for the 'rise' animation
+    bubble.style.setProperty('--speed', speed);
+    bubble.style.setProperty('--distance', distance);
+
+    fizz.appendChild(bubble);
+    // Cleanup: remove bubble after animation is done
+    setTimeout(() => bubble.remove(), 2000);
+}
+
+/**
+ * The main Loading Loop
+ */
+const loading = setInterval(() => {
+    progress += 0.4; // Increment speed (lower = slower)
+
+    // Calculate new Vertical (Y) position for the liquid
+    // 300 is the full height of the SVG bottle
+    const fillY = 300 - (progress * 3);
+
+    // Move both the rect fill and the wave path up
+    liquidFill.setAttribute('y', fillY);
+    wave.setAttribute('transform', `translate(0, ${fillY})`);
+
+    // Update UI text
+    percentDisplay.innerText = Math.floor(progress);
+
+    // Occasionally spawn a bubble (30% chance per frame)
+    if (Math.random() > 0.7) createBubble();
+
+    if (progress >= 100) {
+        clearInterval(loading);
+        finishLoading();
+    }
+}, 30);
+
+/**
+ * Fades out loader and reveals content
+ */
+function finishLoading() {
+    setTimeout(() => {
+        loaderScreen.style.opacity = '0';
+        mainContent.style.visibility = 'visible';
+        mainContent.style.opacity = '1';
+        // Remove from DOM entirely after fade to save performance
+        setTimeout(() => {
+            loaderScreen.style.display = 'none';
+        }, 1000);
+    }, 500);
+}
+
+const text = "Coca-Cola: Taste the Feeling.";
+const typingElement = document.getElementById('typing-text');
+let index = 0;
+let isTyping = false;
+
+function typeWriter() {
+    if (!isTyping) {
+        isTyping = true;
+        typingElement.textContent = '';
+        index = 0;
+    }
+
+    if (index < text.length) {
+        typingElement.textContent += text.charAt(index);
+        index++;
+        setTimeout(typeWriter, 100);
+    } else {
+        setTimeout(() => {
+            isTyping = false;
+            typeWriter();
+        }, 2000);
+    }
+}
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !isTyping) {
+            typeWriter();
+        }
+    });
+});
+
+observer.observe(document.querySelector('.welcome-content'));
