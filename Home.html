@@ -16,26 +16,31 @@
 <body>
 
 
-    <div id="loader-wrapper">
-        <div class="container">
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
+    <div id="loader-screen">
+        <div class="bottle-container">
+            <svg class="bottle-svg" viewBox="0 0 100 300">
+                <defs>
+                    <clipPath id="bottle-clip">
+                        <path
+                            d="M35,10 L65,10 Q70,10 70,20 L70,50 Q70,70 85,100 L85,250 Q85,290 50,290 Q15,290 15,250 L15,100 Q30,70 30,50 L30,20 Q30,10 35,10 Z" />
+                    </clipPath>
+                </defs>
+
+                <rect width="100" height="300" fill="rgba(255,255,255,0.05)" clip-path="url(#bottle-clip)" />
+
+                <g clip-path="url(#bottle-clip)">
+                    <rect id="liquid-fill" x="0" y="300" width="100" height="300" fill="#F40009" />
+
+                    <path id="wave" d="M0,300 Q25,290 50,300 T100,300 L100,310 L0,310 Z" fill="#F40009">
+                        <animateTransform attributeName="transform" type="translate" from="-50 0" to="0 0" dur="1.5s"
+                            repeatCount="indefinite" />
+                    </path>
+                </g>
+            </svg>
+            <div class="fizz-container" id="fizz"></div>
         </div>
+        <div class="loading-text">Refreshing... <span id="percent">0</span>%</div>
     </div>
-    
-    <div id="custom-cursor"></div>
-    <div id="transition-overlay"></div>
     
 
     <nav class="navbar">
@@ -206,6 +211,7 @@
 </body>
 
 </html>
+
 
 
 
