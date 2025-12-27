@@ -14,8 +14,6 @@
 </head>
 
 <body>
-
-
     <div id="loader-screen">
         <div class="bottle-container">
             <svg class="bottle-svg" viewBox="0 0 100 300">
@@ -41,12 +39,14 @@
         </div>
         <div class="loading-text">Refreshing... <span id="percent">0</span>%</div>
     </div>
-    
+
+    <div id="custom-cursor"></div>
+    <div id="transition-overlay"></div>
 
     <nav class="navbar">
         <img src="assets/logo-4.png" alt="Coca-Cola Logo" class="logo-img">
         <div class="nav-links">
-            <a href="#welcome-section" class="active">HOME</a>
+            <a href="#welcome-section" class="active">WELCOME</a>
             <a href="#product-section">PRODUCTS</a>
             <a href="#about-section">ABOUT</a>
             <a href="#contact-section">CONTACT</a>
@@ -54,7 +54,7 @@
     </nav>
 
     <section id="welcome-section" class="main-section">
-        <video autoplay loop playsinline id="welcome-video">
+        <video autoplay mutedloop playsinline id="welcome-video">
             <source src="assets/Welcome.mp4" type="video/mp4">
         </video>
         <div class="welcome-content">
@@ -98,47 +98,42 @@
     </section>
 
     <section id="about-section" class="main-section">
-        <video autoplay muted loop playsinline id="product-video-bg">
-            <source src="assets/About.mp4" type="video/mp4">
-        </video>
         <div class="about-container">
             <div class="about-text">
-                <h2 class="animated-element fade-in-up">A Global Icon & Purpose</h2>
-                <p class="animated-element fade-in-up" style="transition-delay: 0.2s;">The Coca-Cola Company (NYSE: KO)
-                    is a total beverage company with products sold in more than 200 countries and territories. Our
-                    company’s purpose is to refresh the world and make a difference.</p>
+                <h2 class="animated-element fade-in-up">Global Icon & Purpose</h2>
+                <p class="animated-element fade-in-up" style="transition-delay: 0.2s;">Founded in 1886 by Dr. John S. Pemberton in Atlanta, Georgia. Now operating in 200+ countries with a mission to refresh the world.</p>
 
-                <h3 class="animated-element fade-in-up" style="transition-delay: 0.4s;">Our Enduring Legacy</h3>
-                <p class="animated-element fade-in-up" style="transition-delay: 0.6s;">Invented in 1886 by Dr. John
-                    Stith Pemberton in Atlanta, Georgia, Coca-Cola was first offered as a fountain beverage at Jacob's
-                    Pharmacy. It quickly grew into a cultural phenomenon. Today, Coca-Cola is one of the world's most
-                    recognized and valuable brands, transcending its role as a simple beverage to become a symbol of
-                    shared moments and optimism worldwide.</p>
-
-                <h3 class="animated-element fade-in-up" style="transition-delay: 0.8s;">Commitment to Sustainability
-                </h3>
-                <p class="animated-element fade-in-up" style="transition-delay: 1.0s;">We are dedicated to building a
-                    sustainable future by focusing on water stewardship, circular economy for packaging, and reducing
-                    our carbon footprint across the value chain.</p>
+                <h3 class="animated-element fade-in-up" style="transition-delay: 0.4s;">Key Facts</h3>
+                <p class="animated-element fade-in-up" style="transition-delay: 0.6s;">• World's most recognized beverage brand<br>
+                • Symbol of shared moments and optimism<br>
+                • Leader in sustainable packaging initiatives</p>
             </div>
             <div class="about-stats animated-element fade-in-up" style="transition-delay: 1.2s;">
                 <div class="stat-box">
                     <span class="stat-number">135+</span>
-                    <span class="stat-label">Years of Refreshment</span>
+                    <span class="stat-label">Years of Heritage</span>
                 </div>
                 <div class="stat-box">
                     <span class="stat-number">200+</span>
-                    <span class="stat-label">Countries with Coca-Cola</span>
+                    <span class="stat-label">Countries</span>
                 </div>
                 <div class="stat-box">
                     <span class="stat-number">400+</span>
-                    <span class="stat-label">Total Brands Worldwide</span>
+                    <span class="stat-label">Brands</span>
                 </div>
                 <div class="stat-box">
                     <span class="stat-number">1.9B</span>
-                    <span class="stat-label">Servings Daily</span>
+                    <span class="stat-label">Daily Servings</span>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section class="text-section">
+        <div class="text-content welcome-content">
+            <h1 class="animated-element fade-in-up" style="text-align: center;">
+                <span id="typing-text"></span>
+            </h1>
         </div>
     </section>
 
@@ -206,14 +201,7 @@
         </div>
     </div>
 
-
     <script src="script.js"></script>
 </body>
 
 </html>
-
-
-
-
-
-
